@@ -2,28 +2,47 @@ import { Event } from './Event';
 
 export class PointInteret {
     Table: Event[]=[];
-    constructor() {this.Event=[];}
+    constructor() {this.Table=[];}
     addEvent(event:Event){
-        if(! this.Table.some(b => b.OBJECTID === book.OBJECTID)) //pour s'assurer que l'évènement n'est pas déjà présent dans la base de données
+        if(! this.Table.some(b => b.OBJECTID === event.OBJECTID)) //pour s'assurer que l'évènement n'est pas déjà présent dans la base de données
         {
-            this.Shelf.push(book);
+            this.Table.push(event);
         }
     }
-    getBook(isbn: string): Book | undefined {
-        return this.Shelf.find(Shelf => Shelf.isbn === isbn);
+    getEventOBJECTID(OBJECTID: number): Event | undefined {
+        return this.Table.find(Table => Table.OBJECTID === OBJECTID);
     }
-    getAllBooks()
+    getAllEvents()
     {
-        return this.Shelf.slice().sort((a,b)=> a.title.localeCompare(b.title));
+        return this.Table.slice().sort((a,b)=> a.nom_poi.localeCompare(b.nom_poi));
     }
-    getBooksOf(author: string)
+    getEventsByCodePostal(code_postal: number)
     {
-        return this.Shelf.filter(Book => Book.author === author);
+        return this.Table.filter(Event => Event.code_postal === code_postal);
     }
-    getTotalNumberOfBooks(){return this.Shelf.length}
-    removeBook(isbn: string) {
-        this.Shelf = this.Shelf.filter(book => book.isbn !== isbn);
-        return this.Shelf;
+    getTotalNumberOfEventsByCat(cat: string)
+    {
+        switch(cat)
+        {
+            case "cat0":
+                return this.Table.filter(Event => Event.cat0 !== '\0');
+            case "cat1":
+                return this.Table.filter(Event => Event.cat1 !== '\0');
+            case "cat2":
+                return this.Table.filter(Event => Event.cat2 !== '\0');
+            case "cat3":
+                return this.Table.filter(Event => Event.cat3 !== '\0');
+            case "cat4":
+                return this.Table.filter(Event => Event.cat4 !== '\0');
+            case "cat5":
+                return this.Table.filter(Event => Event.cat5 !== '\0');
+            default:
+                console.log("Error");
+        }
+    }
+    removeEvent(OBJECTID: number) {
+        this.Table = this.Table.filter(Event => Event.OBJECTID !== OBJECTID);
+        return this.Table;
     }
 
 }

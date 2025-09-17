@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, Delete, Query } from '@nestjs/common';
-import { BookService } from './book.service';
+import { BookService } from './event.service';
 import { Book } from './Event';
 import { Bookshelf } from './PointInteret';
 
