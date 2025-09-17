@@ -1,0 +1,68 @@
+[
+  {
+    "isbn": "9782070368228",
+    "titre": "L'Étranger",
+    "auteurs": "Albert Camus",
+    "dateParution": "1942-05-19"
+  },  
+  {
+    "isbn": "9782253002176",
+    "titre": "Le Petit Prince",
+    "auteurs": "Antoine de Saint-Exupéry",
+    "dateParution": "1943-04-06"
+  },
+  {
+    "isbn": "9782070409303",
+    "titre": "Madame Bovary",
+    "auteurs": "Gustave Flaubert",
+    "dateParution": "1857-12-12"
+  },
+  {
+    "isbn": "9782080701516",
+    "titre": "Les Misérables",
+    "auteurs": "Victor Hugo",
+    "dateParution": "1862-04-03"
+  },
+  {
+    "isbn": "9782070341924",
+    "titre": "À la recherche du temps perdu - Du côté de chez Swann",
+    "auteurs": "Marcel Proust",
+    "dateParution": "1913-11-14"
+  },
+  {
+    "isbn": "9782253010218",
+    "titre": "Candide",
+    "auteurs": "Voltaire",
+    "dateParution": "1759-01-15"
+  },
+  {
+    "isbn": "9782253006327",
+    "titre": "Germinal",
+    "auteurs": "Émile Zola",
+    "dateParution": "1885-04-02"
+  },
+  {
+    "isbn": "9782070413119",
+    "titre": "Notre-Dame de Paris",
+    "auteurs": "Victor Hugo",
+    "dateParution": "1831-03-16"
+  },
+  {
+    "isbn": "9782253073022",
+    "titre": "La Peste",
+    "auteurs": "Albert Camus",
+    "dateParution": "1947-06-10"
+  },
+  {
+    "isbn": "9782070375165",
+    "titre": "Les Fleurs du mal",
+    "auteurs": "Charles Baudelaire",
+    "dateParution": "1857-06-25"
+  },
+  {
+    "isbn": "9782070345861",
+    "titre": "Le Rouge et le Noir",
+    "auteurs": "Stendhal",
+    "dateParution": "1830-11-13"
+  }
+]

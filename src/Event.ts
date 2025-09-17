@@ -1,0 +1,48 @@
+
+export interface Event{
+    nom_poi: string;
+    description: string;
+    url_poi: string;
+    OBJECTID: number; //Identifiant de l'évènements
+    cat0: string; //Les cinq catégories hiérarchisées permettent de qualifier l'évènement de plus en précisément
+    url0: string;
+    cat1: string;
+    url1: string;
+    cat2: string;
+    url2: string;
+    cat3: string;
+    url3: string;
+    cat4: string;
+    url4: string;
+    cat5: string;
+    url5: string;
+    classements_poi: string;
+    adresse_postal: string;
+    code_postal: number;
+    commune: string;
+    codeinsee: number;
+    point_de_contact: string;
+    telephone: string;
+    email: string;
+    site_web: string;
+    date_debut: string;
+    date_fin: string;
+    periode: string;
+    periode_regroupee: string;
+    covid19_est_en_activite: string;
+    covid19_mesures_specifiques: string;
+    covid19_periode_d_ouverture: string;
+    createur_de_la_donnee: string;
+    date_mise_a_jour: string;
+    latitude: number;
+    longitude: number;
+    sit_diffuseur: string;
+    codcomm: number;
+    codesiret: number;
+    source: string;
+    datemaj: string;
+    geo_shape: string;
+    geo_point_2d: string;
+    POI: string;
+    lien_media: string;
+}
