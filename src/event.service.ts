@@ -2,91 +2,53 @@ import { readFile } from 'node:fs/promises';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map, tap } from 'rxjs';
-import { Events } from 'src/Events';
+import { Event } from 'src/Event';
 
 @Injectable()
-export class BookService implements OnModuleInit {
+export class EventService implements OnModuleInit {
     constructor(private readonly httpService: HttpService) {}
 
-    private readonly storage: Map<string, Book> = new Map();
+    private readonly storage: Map<number, Event> = new Map();
 
     async onModuleInit() {
-        await Promise.all([this.loadBooksFromFile(), this.loadBooksFromApi()]);
+        await Promise.all([this.loadEventsFromApi()]);
     }
 
-    private async loadBooksFromFile() {
-        const data = await readFile('src/dataset.json', 'utf8');
-        const books = JSON.parse(data.toString()) as Book[];
-        books.forEach((book) => this.addBook(book));
-    }
 
-    async loadBooksFromApi() {
+    async loadEventsFromApi() {
         const { data } = await firstValueFrom(
-            this.httpService.get<ApiBook[]>(
-                'https://api.npoint.io/fbb2a6039fc21e320b30',
+            this.httpService.get<Event[]>(
+                'https://data.ampmetropole.fr/api/explore/v2.1/catalog/datasets/point-dinteret-datatourisme-multi-niveaux/records?limit=20&refine=niv1_categorie%3A%22F%C3%AAte%20et%20manifestation%22',
             ),
         );
 
         data
-            .map((apiBook) => ({
-                author: apiBook.authors,
-                date: apiBook.publication_date,
-                isbn: apiBook.isbn,
-                title: apiBook.title,
+            .map((event) => ({
+                nom_poi: event.nom_poi,
+                description: event.description,
+                url_poi: event.url_poi,
+                OBJECTID: event.OBJECTID, //Identifiant de l'évènements
             }))
-            .forEach(this.addBook);
+            .forEach(this.addEvent);
     }
 
-    async loadBooksFromApiObservable() {
-        this.httpService
-            .get<ApiBook[]>('https://api.npoint.io/fbb2a6039fc21e320b30')
-            .pipe(
-                map((response) => response.data),
-                map((apiBooks) =>
-                    apiBooks.map((apiBook) => ({
-                        author: apiBook.authors,
-                        date: apiBook.publication_date,
-                        isbn: apiBook.isbn,
-                        title: apiBook.title,
-                    })),
-                ),
-                tap((books) => books.forEach((book) => this.addBook(book))),
-            )
-            .subscribe();
+
+    addEvent(event: Event) {
+        this.storage.set(event.OBJECTID, event);
     }
 
-    addBook(book: Book) {
-        this.storage.set(book.isbn, book);
-    }
+    getEvent(OBJECTID: number): Event {
+        const event = this.storage.get(OBJECTID);
 
-    getBook(isbn: string): Book {
-        const book = this.storage.get(isbn);
-
-        if (!book) {
-            throw new Error(`Book with ISBN ${isbn} not found`);
+        if (!event) {
+            throw new Error('Event with OBJECTID ${OBJECTID} not found');
         }
-        return book;
+        return event;
     }
 
-    getAllBooks(): Book[] {
-        return Array.from(this.storage.values()).sort((a, b) =>
-            a.title.localeCompare(b.title),
+    getAllEvents(): Event[] {
+        return Array.from(this.storage.values()
         );
     }
 
-    getBooksOf(author: string): Book[] {
-        return this.getAllBooks()
-            .filter((book) => book.author === author)
-            .sort((a, b) => a.title.localeCompare(b.title));
-    }
-
-    remove(isbn: string) {
-        this.storage.delete(isbn);
-    }
-
-    search(term: string) {
-        return Array.from(this.storage.values())
-            .filter((book) => book.title.includes(term) || book.author.includes(term))
-            .sort((a, b) => a.title.localeCompare(b.title));
-    }
 }

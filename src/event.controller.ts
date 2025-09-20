@@ -8,40 +8,30 @@ import {
     Post,
     Query,
 } from '@nestjs/common';
-import type { Book } from './Book';
-import { BookService } from './book.service';
+import type { Event } from './Event';
+import { EventService } from './event.service';
 
-@Controller('/books')
-export class BookController {
-    constructor(private readonly bookService: BookService) {}
+@Controller('/events')
+export class EventController {
+    constructor(private readonly eventService: EventService) {}
 
     @Post()
-    createBook(@Body() book: Book): Book {
-        this.bookService.addBook(book);
-        return this.bookService.getBook(book.isbn);
+    createEvent(@Body() event: Event): Event {
+        this.eventService.addEvent(event);
+        return this.eventService.getEvent(event.OBJECTID);
     }
 
     @Get()
-    getBooks(@Query('author') author: string): Book[] {
-        if (author) {
-            return this.bookService.getBooksOf(author);
-        }
-        return this.bookService.getAllBooks();
+    getAllEvents(): Event[] {
+        return this.eventService.getAllEvents();
     }
 
-    @Get(':isbn')
-    getBook(@Param('isbn') isbn: string): Book {
-        return this.bookService.getBook(isbn);
+
+
+    @Get(':OBJECTID')
+    getEvent(@Param('OBJECTID') OBJECTID: number): Event {
+        return this.eventService.getEvent(OBJECTID);
     }
 
-    @Delete(':isbn')
-    deleteBook(@Param('isbn') isbn: string): void {
-        this.bookService.remove(isbn);
-    }
 
-    @Post('search')
-    @HttpCode(200)
-    searchBooks(@Body() { term }: { term: string }): Book[] {
-        return this.bookService.search(term);
-    }
 }
