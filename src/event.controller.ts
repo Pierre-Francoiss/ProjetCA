@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, HttpCode } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from './Event';
 
@@ -45,4 +45,9 @@ getTotalNumberOfEventsByCat(@Query('categorie') categorie?: string): Partial<Eve
   }
   return this.eventService.getAllEvents();
 }
+@Post('search')
+@HttpCode(200)
+  searchEvent(@Body() { term }: { term: string }): Event[] {
+    return this.eventService.search(term);
+  }
 }

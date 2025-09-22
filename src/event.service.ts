@@ -143,8 +143,12 @@ export class EventService {
                 return this._event.filter(Event => Event.cat5 !== '\0');
             default:
                 console.log("Error");
-        }
+        }  
     }
-  
-  
+  search(term: string) 
+  {
+  return Array.from(this.storage.values())
+     .filter((event) => event.nom_poi.includes(term) || event.description.includes(term))
+     .sort((a, b) => a.nom_poi.localeCompare(b.nom_poi));
+  }
 }
