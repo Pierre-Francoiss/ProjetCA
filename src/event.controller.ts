@@ -35,4 +35,14 @@ removeEvent(@Param('objectid') objectid: number)
 {
     return this.eventService.removeEvent(objectid);
 }
+
+@Get(':categorie')
+getTotalNumberOfEventsByCat(@Query('categorie') categorie?: string): Partial<Event>[]
+{
+  if(categorie)
+  {
+    return this.eventService.getTotalNumberOfEventsByCat(categorie);
+  }
+  return this.eventService.getAllEvents();
+}
 }
