@@ -1,39 +1,38 @@
 import { Controller, Get, Post, Body, Param, Delete, Query } from '@nestjs/common';
-import { BookService } from './event.service';
-import { Book } from './Event';
-import { Bookshelf } from './PointInteret';
+import { EventService } from './event.service';
+import { Event } from './Event';
 
 @Controller()
-export class BookController {
-  constructor(private readonly bookService: BookService) {}
+export class EventController {
+  constructor(private readonly eventService: EventService) {}
 
 @Post('books')
-addBook(@Body() book:Book):string
+addEvent(@Body() event:Event):string
 {
-    this.bookService.addBook(book);
-    return "Livre ajouté avec succès !!! Trop fort, tu es si bon en informatique, quelle chance de faire CS !!!!"
+    this.eventService.addEvent(event);
+    return "Evènement ajouté avec succès !"
 
 }
 
 @Get()
-getBooks(@Query('author') author?: string): Book[] {
-    if (author)
+getEventByCodePostal(@Query('code_postal') code_postal?: number): Partial<Event>[] {
+    if (code_postal)
     {
-      return this.bookService.getBooksOf(author);
+      return this.eventService.getEventByCodePostal(code_postal);
     }
-    return this.bookService.getAllBooks();
+    return this.eventService.getAllEvents();
   }
 
-@Get(':isbn')
-getBook(@Param('isbn') isbn: string):Book | undefined
+@Get(':objectid')
+getEvent(@Param('objectid') objectid: number):Event | undefined
 {
-    return this.bookService.getBook(isbn);
+    return this.eventService.getEvent(objectid);
 }
 
 
-@Delete(':isbn')
-removeBook(@Param('isbn') isbn: string)
+@Delete(':objectid')
+removeEvent(@Param('objectid') objectid: number)
 {
-    return this.bookService.removeBook(isbn);
+    return this.eventService.removeEvent(objectid);
 }
 }
