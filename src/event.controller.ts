@@ -22,15 +22,15 @@ export class EventController {
     }
 
     @Get()
-    getAllEvents(): Event[] {
+    getAllEvents(): Partial<Event>[] {
         return this.eventService.getAllEvents();
     }
 
 
 
     @Get(':objectid')
-    getEvent(@Param('objectid') objectid: number): Event {
-        return this.eventService.getEvent(objectid);
+    getEvent(@Param('objectid') objectid: string): Event {
+        return this.eventService.getEvent(Number(objectid));
     }
 
 

@@ -3,13 +3,13 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map, tap } from 'rxjs';
 import { Event } from 'src/Event';
+import {askForProjectName} from "@nestjs/cli/lib/utils/project-utils";
 
 @Injectable()
 export class EventService implements OnModuleInit {
     constructor(private readonly httpService: HttpService) {}
 
     private readonly storage: Map<number, Event> = new Map();
-
     async onModuleInit() {
         await Promise.all([this.loadEventsFromApi()]);
     }
@@ -22,14 +22,29 @@ export class EventService implements OnModuleInit {
             ),
         );
 
-        const events = data.results ?? []; // 👈 tableau d’événements
+        const events = data.results ?? [];
 
         events
             .map((event: any) => ({
-                nom_poi: event.nom_poi,
                 description: event.description,
+                nom_poi: event.nom_poi,
+                objectid: event.objectid,
                 url_poi: event.url_poi,
-                objectid: event.objectid, // ⚠️ dans l’API la clé est `objectid` en minuscule
+                cat0: event.cat0, //Les cinq catégories hiérarchisées permettent de qualifier l'évènement de plus en précisément
+                cat1: event.cat1,
+                cat2: event.cat2,
+                cat3: event.cat3,
+                cat4: event.cat4,
+                cat5: event.cat5,
+                adresse_postal: event.adresse_postal,
+                code_postal: event.code_postal,
+                commune: event.commune,
+                telephone: event.telephone,
+                email: event.email,
+                site_web: event.site_web,
+                latitude: event.latitude,
+                longitude: event.longitude,
+                lien_media: event.lien_media
             }))
             .forEach((event: Event) => this.addEvent(event));
     }
@@ -40,17 +55,26 @@ export class EventService implements OnModuleInit {
     }
 
     getEvent(objectid: number): Event {
+        console.log(`Getting event: ${objectid}`);
+        console.log(typeof objectid === 'string');
+        console.log(this.storage);
+        console.log((this.storage)[objectid]);
+        console.log(this.storage.get(objectid));
         const event = this.storage.get(objectid);
 
         if (!event) {
-            throw new Error('Event with objectid ${objectid} not found');
+            throw new Error(`Event with objectid: ${objectid} not found`);
         }
         return event;
     }
 
-    getAllEvents(): Event[] {
-        return Array.from(this.storage.values()
-        );
+    getAllEvents(): Partial<Event>[] {
+        return Array.from(this.storage.values()).map(event => ({
+            objectid: event.objectid,
+            nom_poi: event.nom_poi,
+            description: event.description,
+            url_poi: event.url_poi,
+        }));
     }
 
 }
