@@ -3,6 +3,6 @@ import { EventModule } from './event.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(EventModule);
-  await app.listen(3000);
+  await app.listen(8080);
 }
 bootstrap();
