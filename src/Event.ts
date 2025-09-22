@@ -3,7 +3,7 @@ export interface Event{
     nom_poi: string;
     description: string;
     url_poi: string;
-    OBJECTID: number; //Identifiant de l'évènements
+    objectid: number; //Identifiant de l'évènements
     cat0: string; //Les cinq catégories hiérarchisées permettent de qualifier l'évènement de plus en précisément
     url0: string;
     cat1: string;

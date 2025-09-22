@@ -18,7 +18,7 @@ export class EventController {
     @Post()
     createEvent(@Body() event: Event): Event {
         this.eventService.addEvent(event);
-        return this.eventService.getEvent(event.OBJECTID);
+        return this.eventService.getEvent(event.objectid);
     }
 
     @Get()
@@ -28,9 +28,9 @@ export class EventController {
 
 
 
-    @Get(':OBJECTID')
-    getEvent(@Param('OBJECTID') OBJECTID: number): Event {
-        return this.eventService.getEvent(OBJECTID);
+    @Get(':objectid')
+    getEvent(@Param('objectid') objectid: number): Event {
+        return this.eventService.getEvent(objectid);
     }
 
 

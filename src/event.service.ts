@@ -17,31 +17,33 @@ export class EventService implements OnModuleInit {
 
     async loadEventsFromApi() {
         const { data } = await firstValueFrom(
-            this.httpService.get<Event[]>(
+            this.httpService.get(
                 'https://data.ampmetropole.fr/api/explore/v2.1/catalog/datasets/point-dinteret-datatourisme-multi-niveaux/records?limit=20&refine=niv1_categorie%3A%22F%C3%AAte%20et%20manifestation%22',
             ),
         );
 
-        data
-            .map((event) => ({
+        const events = data.results ?? []; // 👈 tableau d’événements
+
+        events
+            .map((event: any) => ({
                 nom_poi: event.nom_poi,
                 description: event.description,
                 url_poi: event.url_poi,
-                OBJECTID: event.OBJECTID, //Identifiant de l'évènements
+                objectid: event.objectid, // ⚠️ dans l’API la clé est `objectid` en minuscule
             }))
-            .forEach(this.addEvent);
+            .forEach((event: Event) => this.addEvent(event));
     }
 
 
     addEvent(event: Event) {
-        this.storage.set(event.OBJECTID, event);
+        this.storage.set(event.objectid, event);
     }
 
-    getEvent(OBJECTID: number): Event {
-        const event = this.storage.get(OBJECTID);
+    getEvent(objectid: number): Event {
+        const event = this.storage.get(objectid);
 
         if (!event) {
-            throw new Error('Event with OBJECTID ${OBJECTID} not found');
+            throw new Error('Event with objectid ${objectid} not found');
         }
         return event;
     }
