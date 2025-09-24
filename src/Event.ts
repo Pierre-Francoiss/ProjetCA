@@ -45,4 +45,5 @@ export interface Event{
     geo_point_2d: string;
     POI: string;
     lien_media: string;
+    favori: boolean;
 }

@@ -44,7 +44,8 @@ export class EventService implements OnModuleInit {
                 site_web: event.site_web,
                 latitude: event.latitude,
                 longitude: event.longitude,
-                lien_media: event.lien_media
+                lien_media: event.lien_media,
+                favori: false,
             }))
             .forEach((event: Event) => this.addEvent(event));
     }
@@ -74,7 +75,25 @@ export class EventService implements OnModuleInit {
             nom_poi: event.nom_poi,
             description: event.description,
             url_poi: event.url_poi,
+            favori: event.favori,
         }));
     }
 
+    setFav(objectid: number, value: boolean) {
+        const event = this.storage.get(objectid);
+        if (!event) {
+            throw new Error(`Event with objectid ${objectid} not found`);
+        }
+        event.favori = value;
+    }
+
+    getFavs(): Partial<Event>[] {
+        return Array.from(this.storage.values()).filter(event => event.favori).map(event => ({
+            objectid: event.objectid,
+            nom_poi: event.nom_poi,
+            description: event.description,
+            url_poi: event.url_poi,
+        }));
+
+    }
 }

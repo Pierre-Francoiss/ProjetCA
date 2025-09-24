@@ -26,7 +26,10 @@ export class EventController {
         return this.eventService.getAllEvents();
     }
 
-
+    @Get('favorits')
+    getFavs() {
+        return this.eventService.getFavs();
+    }
 
     @Get(':objectid')
     getEvent(@Param('objectid') objectid: string): Event {
@@ -34,4 +37,16 @@ export class EventController {
     }
 
 
+
+    @Post('favorits/:objectid')
+    addFav(@Param('objectid') objectid: number) {
+        this.eventService.setFav(Number(objectid), true);
+        return { success: true };
+    }
+
+    @Post('exfavorits/:objectid')
+    removeFav(@Param('objectid') objectid: number) {
+        this.eventService.setFav(Number(objectid), false);
+        return { success: true };
+    }
 }
