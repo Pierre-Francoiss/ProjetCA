@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService} from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map, tap } from 'rxjs';
 import { readFile } from 'fs/promises';
 import type { Event } from './Event';
 import { apiBook } from './apiBook';
@@ -121,7 +121,7 @@ private async loadEventsFromFile() {
     async loadEventsFromApi(){
     try {
       const { data } = await firstValueFrom(
-        this.httpService.get<apiBook[]>('https://data.ampmetropole.fr/api/explore/v2.1/catalog/datasets/point-dinteret-datatourisme-multi-niveaux/records?limit=20&refine=niv1_categorie%3A%22F%C3%AAte%20et%20manifestation%22')
+        this.httpService.get<apiBook[]>('https://data.ampmetropole.fr/api/explore/v2.1/catalog/datasets/point-dinteret-datatourisme-multi-niveaux/records?limit=20&refine=niv1_categorie%3A%22F%C3%AAte%20et%20manifestation%22',),
       );
 
       data
