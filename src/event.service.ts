@@ -118,66 +118,75 @@ private async loadEventsFromFile() {
 
 
 
-    async loadEventsFromApi(){
-    try {
-      const { data } = await firstValueFrom(
-        this.httpService.get<apiBook[]>('https://data.ampmetropole.fr/api/explore/v2.1/catalog/datasets/point-dinteret-datatourisme-multi-niveaux/records?limit=20&refine=niv1_categorie%3A%22F%C3%AAte%20et%20manifestation%22',),
-      );
+async loadEventsFromApi() {
+  try {
+    const { data } = await firstValueFrom(
+      this.httpService.get<{
+        total_count: number;
+        results: apiBook[];
+      }>(
+        'https://data.ampmetropole.fr/api/explore/v2.1/catalog/datasets/point-dinteret-datatourisme-multi-niveaux/records?limit=20&refine=niv1_categorie%3A%22F%C3%AAte%20et%20manifestation%22'
+      )
+    );
 
-      data
-  .map(apiBook => ({
-    OBJECTID: apiBook.objectid,
-    nom_poi: apiBook.nom_poi,
-    description: apiBook.description,
-    url_poi: apiBook.url_poi,
-    cat0: apiBook.cat0,
-    url0: apiBook.url0,
-    cat1: apiBook.cat1,
-    url1: apiBook.url1,
-    cat2: apiBook.cat2,
-    url2: apiBook.url2,
-    cat3: apiBook.cat3,
-    url3: apiBook.url3,
-    cat4: apiBook.cat4,
-    url4: apiBook.url4,
-    cat5: apiBook.cat5,
-    url5: apiBook.url5,
-    classements_poi: apiBook.classements_poi,
-    adresse_postal: apiBook.adresse_postal,
-    code_postal: apiBook.code_postal,
-    commune: apiBook.commune,
-    codeinsee: apiBook.codeinsee,
-    point_de_contact: apiBook.point_de_contact,
-    telephone: apiBook.telephone,
-    email: apiBook.email,
-    site_web: apiBook.site_web,
-    date_debut: apiBook.date_debut,
-    date_fin: apiBook.date_fin,
-    periode: apiBook.periode,
-    periode_regroupee: apiBook.periode_regroupee,
-    covid19_est_en_activite: apiBook.covid19_est_en_activite,
-    covid19_mesures_specifiques: apiBook.covid19_mesures_specifiques,
-    covid19_periode_d_ouverture: apiBook.covid19_periode_d_ouverture,
-    createur_de_la_donnee: apiBook.createur_de_la_donnee,
-    date_mise_a_jour: apiBook.date_mise_a_jour,
-    latitude: apiBook.latitude,
-    longitude: apiBook.longitude,
-    sit_diffuseur: apiBook.sit_diffuseur,
-    codcomm: apiBook.codcomm,
-    codesiret: apiBook.codesiret,
-    source: apiBook.source,
-    datemaj: apiBook.datemaj,
-    geo_shape: apiBook.geo_shape,
-    geo_point_2d: apiBook.geo_point_2d,
-    POI: apiBook.POI,
-    lien_media: apiBook.lien_media
-  }))
-  .forEach(event => this.addEvent(event));
-
-    } catch (error: any) {
-      console.error('Erreur lors du chargement des livres depuis API :', error.message);
-    }
+    // ⚠️ Utiliser data.results et pas data directement
+    data.results
+      .map(apiBook => ({
+        OBJECTID: apiBook.objectid,
+        nom_poi: apiBook.nom_poi,
+        description: apiBook.description,
+        url_poi: apiBook.url_poi,
+        cat0: apiBook.cat0,
+        url0: apiBook.url0,
+        cat1: apiBook.cat1,
+        url1: apiBook.url1,
+        cat2: apiBook.cat2,
+        url2: apiBook.url2,
+        cat3: apiBook.cat3,
+        url3: apiBook.url3,
+        cat4: apiBook.cat4,
+        url4: apiBook.url4,
+        cat5: apiBook.cat5,
+        url5: apiBook.url5,
+        classements_poi: apiBook.classements_poi,
+        adresse_postal: apiBook.adresse_postal,
+        code_postal: apiBook.code_postal,
+        commune: apiBook.commune,
+        codeinsee: apiBook.codeinsee,
+        point_de_contact: apiBook.point_de_contact,
+        telephone: apiBook.telephone,
+        email: apiBook.email,
+        site_web: apiBook.site_web,
+        date_debut: apiBook.date_debut,
+        date_fin: apiBook.date_fin,
+        periode: apiBook.periode,
+        periode_regroupee: apiBook.periode_regroupee,
+        covid19_est_en_activite: apiBook.covid19_est_en_activite,
+        covid19_mesures_specifiques: apiBook.covid19_mesures_specifiques,
+        covid19_periode_d_ouverture: apiBook.covid19_periode_d_ouverture,
+        createur_de_la_donnee: apiBook.createur_de_la_donnee,
+        date_mise_a_jour: apiBook.date_mise_a_jour,
+        latitude: apiBook.latitude,
+        longitude: apiBook.longitude,
+        sit_diffuseur: apiBook.sit_diffuseur,
+        codcomm: apiBook.codcomm,
+        codesiret: apiBook.codesiret,
+        source: apiBook.source,
+        datemaj: apiBook.datemaj,
+        geo_shape: apiBook.geo_shape,
+        geo_point_2d: apiBook.geo_point_2d,
+        POI: apiBook.POI,
+        lien_media: apiBook.lien_media,
+      }))
+      .forEach(event => this.addEvent(event));
+  } catch (error: any) {
+    console.error(
+      'Erreur lors du chargement des événements depuis API :',
+      error?.message || error
+    );
   }
+}
+
   
 
     addEvent(event: Event) {
