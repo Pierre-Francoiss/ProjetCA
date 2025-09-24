@@ -18,7 +18,7 @@ export interface Event{
     url5: string;
     classements_poi: string;
     adresse_postal: string;
-    code_postal: number;
+    code_postal: string;
     commune: string;
     codeinsee: number;
     point_de_contact: string;

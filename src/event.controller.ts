@@ -26,7 +26,7 @@ export class EventController {
         return this.eventService.getAllEvents();
     }
 
-    @Get('favorits')
+    @Get('favoris')
     getFavs() {
         return this.eventService.getFavs();
     }
@@ -38,15 +38,21 @@ export class EventController {
 
 
 
-    @Post('favorits/:objectid')
+    @Post('favoris/:objectid')
     addFav(@Param('objectid') objectid: number) {
         this.eventService.setFav(Number(objectid), true);
         return { success: true };
     }
 
-    @Post('exfavorits/:objectid')
+    @Post('exfavoris/:objectid')
     removeFav(@Param('objectid') objectid: number) {
         this.eventService.setFav(Number(objectid), false);
         return { success: true };
     }
+
+    @Get('loc/:code')
+    getByPostalCode(@Param('code') code: string) {
+        return this.eventService.getByPostalCode(code);
+    }
+
 }

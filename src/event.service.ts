@@ -96,4 +96,21 @@ export class EventService implements OnModuleInit {
         }));
 
     }
+
+    getByPostalCode(code: string): Partial<Event>[] {
+        console.log(`code postal: ${code}`);
+        console.log(typeof code === 'string');
+        console.log( Number(code));
+        console.log(Array.from(this.storage.values()).filter(event => event.code_postal === code))
+        return Array.from(this.storage.values()).filter(event => event.code_postal === code).map(event => ({
+                objectid: event.objectid,
+                nom_poi: event.nom_poi,
+                description: event.description,
+                url_poi: event.url_poi,
+                favori: event.favori,
+                code_postal: event.code_postal,
+            }));
+    }
+
+
 }
