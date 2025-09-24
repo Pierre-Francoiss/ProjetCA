@@ -1,9 +1,9 @@
-export interface Event{
+export interface apiBook {
+  objectid: number;
     nom_poi: string;
     description: string;
     url_poi: string;
-    OBJECTID: number; //Identifiant de l'évènements
-    cat0: string; //Les cinq catégories hiérarchisées permettent de qualifier l'évènement de plus en précisément
+    cat0: string;
     url0: string;
     cat1: string;
     url1: string;
@@ -43,5 +43,5 @@ export interface Event{
     geo_shape: string;
     geo_point_2d: string;
     POI: string;
-    lien_media: string;
+    lien_media: string; 
 }

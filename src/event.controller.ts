@@ -6,7 +6,7 @@ import { Event } from './Event';
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
-@Post('books')
+@Post('event')
 addEvent(@Body() event:Event):string
 {
     this.eventService.addEvent(event);
