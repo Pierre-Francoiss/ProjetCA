@@ -31,12 +31,6 @@ export class EventController {
         return this.eventService.getFavs();
     }
 
-    @Get(':objectid')
-    getEvent(@Param('objectid') objectid: string): Event {
-        return this.eventService.getEvent(Number(objectid));
-    }
-
-
 
     @Post('favoris/:objectid')
     addFav(@Param('objectid') objectid: number) {
@@ -55,4 +49,18 @@ export class EventController {
         return this.eventService.getByPostalCode(code);
     }
 
+    @Get('autourde')
+    getNearbyEvents(
+        @Query('lat') lat: string,
+        @Query('lon') lon: string,
+        @Query('rayon') rayon: string,
+    ) {
+        return this.eventService.getByLocation(Number(lat), Number(lon), Number(rayon));
+    }
+
+    //mis en dernier pour ne pas poser de problème de priorité
+    @Get(':objectid')
+    getEvent(@Param('objectid') objectid: string): Event {
+        return this.eventService.getEvent(Number(objectid));
+    }
 }

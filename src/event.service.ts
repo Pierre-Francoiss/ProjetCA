@@ -42,8 +42,8 @@ export class EventService implements OnModuleInit {
                 telephone: event.telephone,
                 email: event.email,
                 site_web: event.site_web,
-                latitude: event.latitude,
-                longitude: event.longitude,
+                latitude: Number(event.latitude),
+                longitude: Number(event.longitude),
                 lien_media: event.lien_media,
                 favori: false,
             }))
@@ -111,6 +111,49 @@ export class EventService implements OnModuleInit {
                 code_postal: event.code_postal,
             }));
     }
+
+    // Fonction de calcul de distance avec formule de Haversine
+    private getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+        const R = 6371; // Rayon de la Terre en km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) *
+            Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // distance en km
+    }
+
+    getByLocation(lat: number, lon: number, rayon: number): Partial<Event>[] {
+        return Array.from(this.storage.values())
+            .filter(event => {
+                if (!event.latitude || !event.longitude) return false;
+
+                const dist = this.getDistanceKm(
+                    Number(lat),
+                    Number(lon),
+                    Number(event.latitude),
+                    Number(event.longitude),
+                );
+
+                return dist <= rayon;
+            })
+            .map(event => ({
+                objectid: event.objectid,
+                nom_poi: event.nom_poi,
+                description: event.description,
+                url_poi: event.url_poi,
+                favori: event.favori,
+                latitude: event.latitude,
+                longitude: event.longitude,
+            }));
+    }
+
 
 
 }
