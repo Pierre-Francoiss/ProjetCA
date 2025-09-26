@@ -19,13 +19,13 @@ describe('Books API', () => {
     httpRequester = request(app.getHttpServer());
   });
 
-  it('GET /books', async () => {
-    const response = await httpRequester.get('/books').expect(200);
+  it('GET /event', async () => {
+    const response = await httpRequester.get('/event').expect(200);
 
     expect(response.body).toEqual(expect.any(Array));
   });
 
-  it('POST /books', async () => {
+  it('POST /event', async () => {
     const response = await httpRequester
       .post('/books')
       .send({

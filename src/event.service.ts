@@ -10,12 +10,12 @@ export class EventService {
     constructor(private readonly httpService: HttpService) {}
     private readonly storage = new Map<number, Event>();
 
-     async onModuleInit() {
+  async onModuleInit() {
     await Promise.all([this.loadEventsFromFile(), this.loadEventsFromApi()]);
   }
 
 private async loadEventsFromFile() {
-  const data = await readFile('src/dataset.json', 'utf8');
+  const data = await readFile('dataset.json', 'utf8');
 
   const eventsFromFile = JSON.parse(data.toString()) as Array<{
     objectid: number;
