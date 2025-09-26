@@ -14,6 +14,11 @@ addEvent(@Body() event:Event):string
 
 }
 
+@Get('list')
+  async listAllEvents(): Promise<Partial<Event>[]> {
+    return this.eventService.getAllEvents();
+  }
+
 @Get()
 getEventByCodePostal(@Query('code_postal') code_postal?: number): Partial<Event>[] {
     if (code_postal)
