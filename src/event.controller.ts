@@ -63,4 +63,10 @@ export class EventController {
     getEvent(@Param('objectid') objectid: string): Event {
         return this.eventService.getEvent(Number(objectid));
     }
+
+    @Delete(':objectid')
+    removeEvent(@Param('objectid') objectid: number) {
+        this.eventService.removeEvent(objectid);
+        return { message: `Événement ${objectid} supprimé avec succès.` };
+    }
 }

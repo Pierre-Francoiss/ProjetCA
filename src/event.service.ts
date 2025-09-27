@@ -154,6 +154,8 @@ export class EventService implements OnModuleInit {
             }));
     }
 
-
+    removeEvent(objectid: number) {
+        this.storage.delete(objectid);
+    }
 
 }
