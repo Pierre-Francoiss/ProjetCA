@@ -134,7 +134,7 @@ describe('Events API', () => {
         });
     });
 
-    it('POST /events/favoris/:objectid & GET /events/favoris', async () => {
+    it('PUT /events/favoris/:objectid & GET /events/favoris', async () => {
         // First prepare the data by adding some books
         await httpRequester.post('/events').send({
             objectid: 123456,
@@ -160,7 +160,7 @@ describe('Events API', () => {
         });
 
         // Ajout aux favoris
-        await httpRequester.post(`/events/favoris/123456`).expect(201);
+        await httpRequester.put(`/events/favoris/123456`).expect(200);
 
         // Vérification de l'obtention de la liste de favoris
         const response = await httpRequester

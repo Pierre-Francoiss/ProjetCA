@@ -7,6 +7,7 @@ import {
     Param,
     Post,
     Query,
+    Put,
 } from '@nestjs/common';
 import type { Event } from './Event';
 import { EventService } from './event.service';
@@ -32,13 +33,13 @@ export class EventController {
     }
 
 
-    @Post('favoris/:objectid')
+    @Put('favoris/:objectid')
     addFav(@Param('objectid') objectid: number) {
         this.eventService.setFav(Number(objectid), true);
         return { success: true };
     }
 
-    @Post('exfavoris/:objectid')
+    @Put('exfavoris/:objectid')
     removeFav(@Param('objectid') objectid: number) {
         this.eventService.setFav(Number(objectid), false);
         return { success: true };
